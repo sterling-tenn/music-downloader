@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 from spotdl import Spotdl
+import subprocess
 
 DEFAULT_CONFIG = {
     "client_id": "5f573c9620494bae87890c0f08a60293",
@@ -24,17 +25,26 @@ while True:
     event, values = window.read()
     if(event == 'Cancel' or event == sg.WIN_CLOSED):
         break
-    
-    youtubeURL = values['YT_URL']
-    spotifyURL = values['SPOT_URL']
 
     if(event == 'Submit' and (not values['YT_URL'] or not values['SPOT_URL'])):
         sg.popup('Please specify a Youtube and Spotify URL')
-    else:
+    elif (event == 'Submit'):
+        # Handle downloading
+        youtubeURL = values['YT_URL']
+        spotifyURL = values['SPOT_URL']
         search  = youtubeURL + "|" + spotifyURL
 
         song = spotdl.search([search])
         spotdl.download(song[0])
+
+        # Handle normalizing the volume
+        songFileName = song[0].display_name + ".mp3"
+        args = "mp3gain.exe /r /c " + '"' + songFileName + '"'
+
+        results = subprocess.run(args,stdout=subprocess.PIPE, stderr=subprocess.PIPE) # Run mp3gain
+        if(results.returncode != 0):
+            sg.popup("Error")
+        
         sg.popup("Finished.")
 
 window.close()
