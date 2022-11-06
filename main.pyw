@@ -4,10 +4,12 @@ from spotdl import Spotdl
 DEFAULT_CONFIG = {
     "client_id": "5f573c9620494bae87890c0f08a60293",
     "client_secret": "212476d9b0f3472eaa762d90b19b0ba8",
+    "bitrate": "0", # To have almost the same configuration as the v3 had: https://github.com/spotDL/spotify-downloader/issues/1642
 }
 
 spotdl = Spotdl(client_id=DEFAULT_CONFIG["client_id"],
                 client_secret=DEFAULT_CONFIG["client_secret"],
+                bitrate=DEFAULT_CONFIG["bitrate"],
                 )
 
 layout =    [[sg.Text('Enter Youtube URL:')],
