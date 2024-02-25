@@ -22,30 +22,42 @@ func main() {
 		songFileName := downloadSong(youtubeURL, spotifyURL)
 		normalizeVolume(songFileName)
 		moveFile(songFileName, DEST_DIR)
+		fmt.Println()
 	}
 }
 
 func downloadSong(yt string, spot string) string {
 	cmd := exec.Command("python", "downloadSong.py", yt, spot)
 
-	output, err := cmd.Output()
+	_, err := cmd.Output()
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	songFileName := string(output)[:len(output)-2] // remove the newline character
+	content, err := os.ReadFile("output.txt")
+	if err != nil {
+		fmt.Printf("failed to read file: %s", err)
+	}
+	songFileName := string(content)
+
+	os.Remove("output.txt")
+
 	return songFileName
 }
 
 func normalizeVolume(songFileName string) {
-	args := []string{"./mp3gain.exe", "/r", "/c", songFileName}
+	// since mp3gain doesn't support unicode characters in file names, we rename the file to a temporary name - https://github.com/cfgnunes/wxmp3gain/issues/2
+	os.Rename(songFileName, "songFileNameTemp.mp3")
+
+	args := []string{"./mp3gain.exe", "/r", "/c", "songFileNameTemp.mp3"}
 	cmd := exec.Command(args[0], args[1:]...)
 
-	output, err := cmd.Output()
+	_, err := cmd.Output()
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
-	fmt.Println("[mp3gain]", string(output))
+	// fmt.Println("[mp3gain]", string(output))
+	os.Rename("songFileNameTemp.mp3", songFileName)
 }
 
 func moveFile(file string, dir string) {

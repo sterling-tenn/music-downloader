@@ -21,4 +21,5 @@ output = ""
 for artist in song[0].artists:
     output += artist + ", "
 output = output[:-2] + " - " + song[0].name + ".mp3"
-print(output)
+with open("output.txt", "w", encoding='utf8') as file:
+    file.write(output)
