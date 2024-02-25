@@ -16,10 +16,3 @@ search  = youtubeURL + "|" + spotifyURL
 
 song = spotdl.search([search])
 spotdl.download(song[0])
-
-filename = ""
-for artist in song[0].artists:
-    filename += artist + ", "
-filename = filename[:-2] + " - " + song[0].name + ".mp3"
-with open("filename.txt", "w", encoding='utf8') as file:
-    file.write(filename)

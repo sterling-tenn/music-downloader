@@ -32,10 +32,7 @@ def download_audio(video_url, filename):
     except subprocess.CalledProcessError as e:
         print("Error downloading audio:", e)
 
-# video_url = "https://www.youtube.com/watch?v=rBAF7rztWik"
 video_url = sys.argv[1]
 video_title, channel_name = get_video_info(video_url)
 filename = channel_name + " - " + video_title + ".mp3"
 download_audio(video_url, filename)
-with open("filename.txt", "w", encoding='utf8') as file:
-    file.write(filename)
