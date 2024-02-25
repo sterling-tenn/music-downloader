@@ -13,7 +13,6 @@ const DEST_DIR = "C:/Users/sterl/OneDrive/Music" // change this to your music di
 func main() {
 	var youtubeURL string
 	var spotifyURL string
-	var songFileName string
 
 	for {
 		fmt.Print("Enter YouTube URL: ")
@@ -34,7 +33,11 @@ func main() {
 			spotdlDownload(youtubeURL, spotifyURL)
 		}
 
-		songFileName, _ = getLastModifiedMP3FileName()
+		songFileName, err := getLastModifiedMP3FileName()
+		if err != nil {
+			fmt.Println("Error:", err)
+			continue
+		}
 		fmt.Println("Downloaded: " + songFileName)
 
 		normalizeVolume(songFileName)
