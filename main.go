@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-const DEST_DIR = "C:/Users/sterl/Desktop/music-downloader/old" // change this to your music directory
+const DEST_DIR = "C:/Users/sterl/OneDrive/Music" // change this to your music directory
 
 func main() {
 	var youtubeURL string
