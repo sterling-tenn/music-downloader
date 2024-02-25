@@ -1,6 +1,7 @@
 import subprocess
 import yt_dlp
 import sys
+import re
 
 def get_video_info(video_url):
     try:
@@ -34,5 +35,10 @@ def download_audio(video_url, filename):
 
 video_url = sys.argv[1]
 video_title, channel_name = get_video_info(video_url)
+
+# Replace invalid characters in channel_name and video_title with underscores
+channel_name = re.sub(r'[<>:"/\\|?*]', '_', channel_name)
+video_title = re.sub(r'[<>:"/\\|?*]', '_', video_title)
+
 filename = channel_name + " - " + video_title + ".mp3"
 download_audio(video_url, filename)
