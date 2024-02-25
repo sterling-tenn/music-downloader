@@ -1,7 +1,9 @@
 # music-downloader
 Work in progress script to help me automate my music collection process<br/>
 
-Note: You need to have [ffmpeg](https://ffmpeg.org/) installed
+Requirements:
+* Python + [spotdl](https://github.com/spotDL/spotify-downloader), only tested with spotdl v4.1.11
+	* [ffmpeg](https://ffmpeg.org/)
 
 Planned:
 * ~~Pass through mp3 gain normalizer [MP3gain](http://mp3gain.sourceforge.net) (I currently use [wxmp3gain](https://github.com/cfgnunes/wxmp3gain) manually per song)~~ [Done]
