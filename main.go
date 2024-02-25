@@ -6,41 +6,74 @@ import (
 	"os/exec"
 )
 
-const DEST_DIR = "C:/Users/sterl/OneDrive/Music" // change this to your music directory
+const DEST_DIR = "C:/Users/sterl/Desktop/music-downloader/old" // change this to your music directory
 
 func main() {
 	var youtubeURL string
 	var spotifyURL string
+	var songFileName string
 
 	for {
 		fmt.Print("Enter YouTube URL: ")
 		fmt.Scanln(&youtubeURL)
+		if youtubeURL == "" {
+			fmt.Println("YouTube URL is required")
+			continue
+		}
 
 		fmt.Print("Enter Spotify URL: ")
 		fmt.Scanln(&spotifyURL)
 
-		songFileName := downloadSong(youtubeURL, spotifyURL)
+		if spotifyURL == "" {
+			fmt.Println("[yt-dlp download]")
+			songFileName = ytdlpDownload(youtubeURL)
+		} else {
+			fmt.Println("[spotdl download]")
+			songFileName = spotdlDownload(youtubeURL, spotifyURL)
+		}
 		normalizeVolume(songFileName)
 		moveFile(songFileName, DEST_DIR)
 		fmt.Println()
+
+		youtubeURL = ""
+		spotifyURL = ""
 	}
 }
 
-func downloadSong(yt string, spot string) string {
-	cmd := exec.Command("python", "downloadSong.py", yt, spot)
+func ytdlpDownload(yt string) string {
+	cmd := exec.Command("python", "ytdlpDownload.py", yt)
 
 	_, err := cmd.Output()
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	content, err := os.ReadFile("output.txt")
+	content, err := os.ReadFile("filename.txt")
 	if err != nil {
 		fmt.Printf("failed to read file: %s", err)
 	}
 	songFileName := string(content)
 
-	os.Remove("output.txt")
+	os.Remove("filename.txt")
+
+	return songFileName
+}
+
+func spotdlDownload(yt string, spot string) string {
+	cmd := exec.Command("python", "spotdlDownload.py", yt, spot)
+
+	_, err := cmd.Output()
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	content, err := os.ReadFile("filename.txt")
+	if err != nil {
+		fmt.Printf("failed to read file: %s", err)
+	}
+	songFileName := string(content)
+
+	os.Remove("filename.txt")
 
 	return songFileName
 }
