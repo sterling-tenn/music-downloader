@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"os/exec"
 )
+
+const DEST_DIR = "C:/Users/sterl/OneDrive/Music" // change this to your music directory
 
 func main() {
 	var youtubeURL string
@@ -18,6 +21,7 @@ func main() {
 
 		songFileName := downloadSong(youtubeURL, spotifyURL)
 		normalizeVolume(songFileName)
+		moveFile(songFileName, DEST_DIR)
 	}
 }
 
@@ -42,4 +46,8 @@ func normalizeVolume(songFileName string) {
 		fmt.Println("Error:", err)
 	}
 	fmt.Println("[mp3gain]", string(output))
+}
+
+func moveFile(file string, dir string) {
+	os.Rename(file, dir+"/"+file)
 }
