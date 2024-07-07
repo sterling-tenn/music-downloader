@@ -5,7 +5,7 @@ Requirements:
 * Python + [spotdl](https://github.com/spotDL/spotify-downloader), only tested with spotdl v4.1.11
 	* `pip install -r requirements.txt`
 * [ffmpeg](https://ffmpeg.org/)
-	* `choco install ffmpeg` in eleveated command prompt
+	* `choco install ffmpeg` in elevated command prompt
 
 Planned:
 * ~~Pass through mp3 gain normalizer [MP3gain](http://mp3gain.sourceforge.net) (I currently use [wxmp3gain](https://github.com/cfgnunes/wxmp3gain) manually per song)~~ [Done]
